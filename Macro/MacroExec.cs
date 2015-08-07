@@ -18,7 +18,7 @@ using System.Globalization;
 using System.Drawing;
 using System.IO;
 using System.Collections.Specialized;
-using Microsoft.JScript;
+//using Microsoft.JScript;
 
 using Poderosa.Plugins;
 using Poderosa.ConnectionParam;
