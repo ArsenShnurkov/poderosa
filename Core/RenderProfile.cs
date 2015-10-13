@@ -440,17 +440,22 @@ namespace Poderosa.View {
             _usingIdenticalFont = (_font.Font.Name == _cjkFont.Font.Name);
 
             //通常版
-            Graphics g = Graphics.FromHwnd(Win32.GetDesktopWindow());
-            IntPtr hdc = g.GetHdc();
-            Win32.SelectObject(hdc, _font.HFONT);
-            Win32.SIZE charsize1, charsize2;
-            Win32.GetTextExtentPoint32(hdc, "A", 1, out charsize1);
-            Win32.GetTextExtentPoint32(hdc, "AAA", 3, out charsize2);
+			try
+			{
+			using (Graphics g = Graphics.FromHwnd (Win32.GetDesktopWindow ())) {
+				IntPtr hdc = g.GetHdc ();
+				Win32.SelectObject (hdc, _font.HFONT);
+				Win32.SIZE charsize1, charsize2;
+				Win32.GetTextExtentPoint32 (hdc, "A", 1, out charsize1);
+				Win32.GetTextExtentPoint32 (hdc, "AAA", 3, out charsize2);
 
-            _pitch = new SizeF((charsize2.width - charsize1.width) / 2, charsize1.height);
-            _chargap = (charsize1.width - _pitch.Width) / 2;
-            g.ReleaseHdc(hdc);
-            g.Dispose();
+				_pitch = new SizeF ((charsize2.width - charsize1.width) / 2, charsize1.height);
+				_chargap = (charsize1.width - _pitch.Width) / 2;
+				g.ReleaseHdc (hdc);
+			}
+			} catch (Exception ex) {
+				Trace.WriteLine (ex.ToString ());
+			}
         }
         private void CreateBrushes() {
             _brush = new SolidBrush(_forecolor);
